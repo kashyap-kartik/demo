@@ -8,12 +8,13 @@ resource "azurerm_availability_set" "web_availabilty_set" {
 }
 
 resource "azurerm_network_interface" "web-net-interface" {
-    name = "web-network"
+    count = 2
+    name = "web-network${count.index}"
     resource_group_name = var.resource_group
     location = var.location
 
     ip_configuration{
-        name = "web-webserver"
+        name = "web-webserver${count.index}"
         subnet_id = var.web_subnet_id
         private_ip_address_allocation = "Dynamic"
     }
