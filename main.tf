@@ -1,28 +1,15 @@
-terraform {
-
-  backend "azurerm" {
-    resource_group_name  = "terraformstate"
-    storage_account_name = "terrastateexample"
-    container_name       = "terraformcontainer"
-    key                  = "terraform.tfstate"
-  }
-
-}
-
-
-# Configure the Microsoft Azure Provider
 provider "azurerm" {
   features {}
 }
 
 module "resourcegroup" {
-  source         = "./rg"
+  source         = "./modules/resourcegroup"
   name           = var.name
   location       = var.location
 }
 
 module "networking" {
-  source         = "./networking"
+  source         = "./modules/networking"
   location       = module.resourcegroup.location_id
   resource_group = module.resourcegroup.resource_group_name
   vnetcidr       = var.vnetcidr
@@ -32,7 +19,7 @@ module "networking" {
 }
 
 module "securitygroup" {
-  source         = "./securitygroups"
+  source         = "./modules/securitygroup"
   location       = module.resourcegroup.location_id
   resource_group = module.resourcegroup.resource_group_name 
   web_subnet_id  = module.networking.websubnet_id
@@ -41,7 +28,7 @@ module "securitygroup" {
 }
 
 module "compute" {
-  source         = "./vm"
+  source         = "./modules/compute"
   location = module.resourcegroup.location_id
   resource_group = module.resourcegroup.resource_group_name
   web_subnet_id = module.networking.websubnet_id
@@ -55,7 +42,7 @@ module "compute" {
 }
 
 module "database" {
-  source = "./db"
+  source = "./modules/database"
   location = module.resourcegroup.location_id
   resource_group = module.resourcegroup.resource_group_name
   primary_database = var.primary_database
