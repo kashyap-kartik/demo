@@ -1,11 +1,3 @@
-variable "terraformstoragerg" {
-  description = "storage account resource group in which will store state file"
-}
-
-variable "terraformstorageaccount" {
-  description = "storage account name in which will store state file"
-}
-
 variable "location" {
   description = "location in which all resources should be created."
 }
