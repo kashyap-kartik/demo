@@ -35,10 +35,20 @@ storage_image_reference {
   }
   
 storage_os_disk {
-    name = "web-disk"
+    name = "web-disk${count.index}"
     caching = "ReadWrite"
     create_option = "FromImage"
     managed_disk_type = "Standard_LRS"
+  }
+
+os_profile {
+    computer_name = "hostname"
+    admin_username = var.web_username
+    admin_password = var.web_os_password
+  }
+
+  os_profile_linux_config {
+    disable_password_authentication = false
   }
 }  
   
