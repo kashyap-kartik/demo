@@ -22,7 +22,7 @@ resource "azurerm_virtual_machine" "web-vm" {
     name = "web-vm-${count.index}"
     location = var.location  # Update with your desired region
     resource_group_name = var.resource_group
-    network_interface_ids = [ azurerm_network_interface.web-net-interface.id ]
+    network_interface_ids = [ azurerm_network_interface.web-net-interface[count.index].id ]
     availability_set_id = azurerm_availability_set.web_availabilty_set.id
     vm_size = "Standard_B1s"  # Update with your desired VM size
     delete_os_disk_on_termination = true
