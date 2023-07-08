@@ -1,3 +1,20 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=2.63.0"
+    }
+  }
+
+  backend "azurerm" {
+    resource_group_name  = "terraformstate"
+    storage_account_name = "terrastateexample"
+    container_name       = "terraformcontainer"
+    key                  = "pocterraform.tfstate"
+  }
+
+}
+
 provider "azurerm" {
   features {}
 }
